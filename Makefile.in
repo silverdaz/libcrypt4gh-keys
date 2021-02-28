@@ -3,7 +3,7 @@ RANLIB = @RANLIB@
 CC     = @CC@
 CFLAGS = @CFLAGS@ -fPIC -I@srcdir@ @CPPFLAGS@ @DEFS@
 LIBS   = @LIBS@ -lopenbsd-compat.a -lopenssh.a
-LDFLAGS = @LDFLAGS@ -L./openbsd-compat -L./openssh
+LDFLAGS = @LDFLAGS@ -L@srcdir@/openbsd-compat -L@srcdir@/openssh
 
 prefix=@prefix@
 exec_prefix=@exec_prefix@
@@ -36,10 +36,10 @@ $(LIBDIR):
 
 libc4gh-keys.so: $(C4GH_HEADERS) $(C4GH_OBJECTS) openssh/libopenssh.a openbsd-compat/libopenbsd-compat.a
 	@echo "Linking objects into $@"
-	$(CC) -shared $(C4GH_LD_SONAME) -o $@ $(C4GH_OBJECTS) $(LDFLAGS) $(LIBS)
+	$(CC) -shared $(C4GH_LD_SONAME) -o $@ $(LDFLAGS) $(LIBS) $(C4GH_OBJECTS)
 
 libc4gh-keys.la: $(C4GH_HEADERS) $(C4GH_OBJECTS)
-	$(AR) rv $@ $(C4GH_OBJECTS)
+	$(AR) rv $@ $(C4GH_OBJECTS) openssh/libopenssh.a openbsd-compat/libopenbsd-compat.a
 	$(RANLIB) $@
 
 openssh/libopenssh.a:
