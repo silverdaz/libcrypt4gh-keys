@@ -4,7 +4,7 @@
 #include <openssl/evp.h>
 
 #include "debug.h"
-#include "openssh/openbsd-compat/openbsd-compat.h" /* for bcrypt_pbkdf */
+#include "openbsd-compat/openbsd-compat.h" /* for bcrypt_pbkdf */
 #include "kdf.h"
 
 /* Supported key types */
