@@ -53,15 +53,6 @@ char *strsep(char **stringp, const char *delim);
 /* Home grown routines */
 #include "bsd-misc.h"
 
-#if !defined(HAVE_VSNPRINTF)
-# include <stdarg.h>
-#endif
-
-
-#ifndef HAVE_VSNPRINTF
-int vsnprintf(char *, size_t, const char *, va_list);
-#endif
-
 #ifndef HAVE_BCRYPT_PBKDF
 int	bcrypt_pbkdf(const char *, size_t, const u_int8_t *, size_t,
     u_int8_t *, size_t, unsigned int);
