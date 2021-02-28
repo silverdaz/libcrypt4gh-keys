@@ -3,14 +3,14 @@
 
 #include "includes.h"
 
-int c4gh_get_private_key_from_blob(char* line, size_t len,
-				   char* passphrase,
-				   uint8_t seckey[crypto_kx_SECRETKEYBYTES],
-				   uint8_t pubkey[crypto_kx_PUBLICKEYBYTES]);
+int crypt4gh_c4gh_private_key_from_blob(char* line, size_t len,
+					char* passphrase,
+					uint8_t seckey[crypto_kx_SECRETKEYBYTES],
+					uint8_t pubkey[crypto_kx_PUBLICKEYBYTES]);
 
-int c4gh_get_public_key_from_blob(const char* line,
-				  size_t len,
-				  uint8_t pk[crypto_kx_PUBLICKEYBYTES]);
+int crypt4gh_c4gh_public_key_from_blob(const char* line,
+				       size_t len,
+				       uint8_t pk[crypto_kx_PUBLICKEYBYTES]);
 
 
 #endif /* !__CRYPT4GH_KEYS_C4GH_H_INCLUDED__ */

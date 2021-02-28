@@ -22,9 +22,9 @@
  * The line should start with MARK_PUBLIC_BEGIN and end with MARK_PUBLIC_END
  */
 int
-c4gh_get_public_key_from_blob(const char* line,
-			      size_t len,
-			      uint8_t pk[crypto_kx_PUBLICKEYBYTES])
+crypt4gh_c4gh_public_key_from_blob(const char* line,
+				   size_t len,
+				   uint8_t pk[crypto_kx_PUBLICKEYBYTES])
 {
   int rc = 1;
   char* end = (char*)line + len - 1; /* point at the end */
@@ -130,10 +130,10 @@ decode_string(u_char** bufp, u_char **valp, uint16_t *lenp)
  * The line should start with MARK_PRIVATE_BEGIN and end with MARK_PRIVATE_END
  */
 int
-c4gh_get_private_key_from_blob(char* line, size_t len,
-			       char* passphrase,
-			       uint8_t seckey[crypto_kx_SECRETKEYBYTES],
-			       uint8_t pubkey[crypto_kx_PUBLICKEYBYTES])
+crypt4gh_c4gh_private_key_from_blob(char* line, size_t len,
+				    char* passphrase,
+				    uint8_t seckey[crypto_kx_SECRETKEYBYTES],
+				    uint8_t pubkey[crypto_kx_PUBLICKEYBYTES])
 {
   int rc = 1;
   char *end = line + len; /* point at the end */
@@ -249,9 +249,9 @@ c4gh_get_private_key_from_blob(char* line, size_t len,
   }
 
   shared_key = (uint8_t*)sodium_malloc(crypto_kx_SESSIONKEYBYTES /* 32 */);
-  if( (rc = derive_key(kdfname,
-		       shared_key, crypto_kx_SESSIONKEYBYTES /* 32 */,
-		       passphrase, strlen(passphrase), salt, salt_len, rounds)) != 0)
+  if( (rc = crypt4gh_kdf_derive_key(kdfname,
+				    shared_key, crypto_kx_SESSIONKEYBYTES /* 32 */,
+				    passphrase, strlen(passphrase), salt, salt_len, rounds)) != 0)
     {
       D1("Error deriving the shared key: %d", rc);
       goto bailout;

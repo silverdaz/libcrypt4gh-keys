@@ -15,10 +15,10 @@
 #define BUF_SIZE 4096 /* Laaaaarge enough */
 
 int
-get_private_key_from_file(const char* filename,
-			  char* passphrase,
-			  uint8_t seckey[crypto_kx_SECRETKEYBYTES],
-			  uint8_t pubkey[crypto_kx_PUBLICKEYBYTES])
+crypt4gh_private_key_from_file(const char* filename,
+			       char* passphrase,
+			       uint8_t seckey[crypto_kx_SECRETKEYBYTES],
+			       uint8_t pubkey[crypto_kx_PUBLICKEYBYTES])
 {
   int rc = 1;
   char* buf = NULL;
@@ -74,12 +74,12 @@ get_private_key_from_file(const char* filename,
   D1("Content len: %lu | %lu", strlen(start), len);
 
   /* Try an SSH key first */
-  rc = ssh_get_private_key_from_blob(start, len, passphrase, seckey, pubkey);
+  rc = crypt4gh_ssh_private_key_from_blob(start, len, passphrase, seckey, pubkey);
   if(rc == 0) /* success: it's an ssh key */
     goto bailout;
 
   /* Try a Crypt4GH key */
-  rc = c4gh_get_private_key_from_blob(start, len, passphrase, seckey, pubkey);
+  rc = crypt4gh_c4gh_private_key_from_blob(start, len, passphrase, seckey, pubkey);
 
 bailout:
   if(fd > 0) close(fd);
@@ -88,17 +88,18 @@ bailout:
   return rc;
 }
 
-int get_public_key_from_blob(const char* line,
-			     size_t len,
-			     uint8_t pk[crypto_kx_PUBLICKEYBYTES])
+int
+crypt4gh_public_key_from_blob(const char* line,
+			      size_t len,
+			      uint8_t pk[crypto_kx_PUBLICKEYBYTES])
 {
   /* Try an ssh key */
   if(!strncmp(line, "ssh-ed25519 ", 12)){
     D1("This is an ssh key");
-    return ssh_get_public_key_from_blob(line, len, pk);
+    return crypt4gh_ssh_public_key_from_blob(line, len, pk);
   }
 
   /* Try a Crypt4GH key */
   D1("Trying Crypt4GH key");
-  return c4gh_get_public_key_from_blob(line, len, pk);
+  return crypt4gh_c4gh_public_key_from_blob(line, len, pk);
 }

@@ -12,10 +12,10 @@
 #include "ssh.h"
 
 int
-ssh_get_private_key_from_blob(const char* line, size_t len,
-			      char* passphrase,
-			      uint8_t seckey[crypto_kx_SECRETKEYBYTES],
-			      uint8_t pubkey[crypto_kx_PUBLICKEYBYTES])
+crypt4gh_ssh_private_key_from_blob(const char* line, size_t len,
+				   char* passphrase,
+				   uint8_t seckey[crypto_kx_SECRETKEYBYTES],
+				   uint8_t pubkey[crypto_kx_PUBLICKEYBYTES])
 {
   int rc = 1;
   struct sshbuf* blob = NULL;
@@ -62,9 +62,9 @@ bailout:
  * Retrieve public key portion from a blob
  */
 int
-ssh_get_public_key_from_blob(const char* line,
-			     size_t len,
-			     uint8_t pk[crypto_kx_PUBLICKEYBYTES])
+crypt4gh_ssh_public_key_from_blob(const char* line,
+				  size_t len,
+				  uint8_t pk[crypto_kx_PUBLICKEYBYTES])
 {
 
   int rc = 1;
