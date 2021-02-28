@@ -28,8 +28,11 @@
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
-#include <resolv.h>
 #include <ctype.h>
+
+#ifdef HAVE_RESOLV_H
+#include <resolv.h>
+#endif
 
 #include "ssherr.h"
 #define SSHBUF_INTERNAL

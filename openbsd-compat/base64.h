@@ -4,21 +4,21 @@
 #include "includes.h"
 
 #ifndef HAVE_B64_NTOP
-/* # ifdef HAVE___B64_NTOP */
-/* # define b64_ntop(a,b,c,d) __b64_ntop(a,b,c,d) */
-/* # define HAVE_B64_NTOP 1 */
-/* #else */
+#   ifdef HAVE_RESOLV_H
+#       include <resolv.h>
+#       define HAVE_B64_NTOP 1
+#   else
 int b64_ntop(u_char const *src, size_t srclength, char *target, size_t targsize);
-/* # endif */
+#   endif
 #endif
 
 #ifndef HAVE_B64_PTON
-/* # ifdef HAVE___B64_PTON */
-/* # define b64_pton(a,b,c) __b64_pton(a,b,c) */
-/* # define HAVE_B64_PTON 1 */
-/* #else */
+#    ifdef HAVE_RESOLV_H
+#        include <resolv.h>
+#        define HAVE_B64_PTON 1
+#    else
 int b64_pton(char const *src, u_char *target, size_t targsize);
-/* # endif */
+#    endif
 #endif
 
 #endif /* _BSD_BASE64_H */

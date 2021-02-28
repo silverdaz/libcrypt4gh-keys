@@ -268,7 +268,12 @@ AC_CHECK_HEADERS([ \
 	sys/byteorder.h \
 	sys/stat.h \
 	unistd.h \
+	dnl resolv.h \
 ])
+
+dnl # We need -lresolv for b64_pton
+dnl dnl AC_SEARCH_LIBS([b64_pton], [resolv])
+dnl AC_CHECK_LIB([resolv], [b64_pton], [LIBS="$LIBS -lresolv"])
 
 # Check for Endianness
 AC_C_BIGENDIAN(
@@ -307,9 +312,6 @@ else
 fi
 
 
-# We need -lresolv for __b64_pton
-dnl AC_SEARCH_LIBS([__b64_pton], [resolv])
-
 dnl    Checks for library functions. Please keep in alphabetical order
 AC_CHECK_FUNCS([ \
 	Blowfish_initstate \
@@ -321,6 +323,8 @@ AC_CHECK_FUNCS([ \
 	SHA512Update \
 	b64_ntop \
 	b64_pton \
+	dnl __b64_pton \
+	dnl __b64_ntop \
 	bcopy \
 	bcrypt_pbkdf \
 	blf_enc \
@@ -334,7 +338,6 @@ AC_CHECK_FUNCS([ \
 	recallocarray \
 	strdup \
 	strerror \
-	vsnprintf \
 ])
 
 
@@ -771,6 +774,7 @@ fi
 AC_CONFIG_FILES([Makefile \
 		 openssh/Makefile \
 		 openbsd-compat/Makefile \
+		 libc4gh-keys.pc \
 ])
 
 AC_SUBST([OPENSSH_DEPEND], [$(cat $srcdir/openssh/.depend)])
