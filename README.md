@@ -46,5 +46,6 @@ Finally, an optional comment can be used at the end of the encoded format.
 
 ## OpenSSH key-format (version 6.5 or above)
 
-We support OpenSSH key-format if the key was generated with type `ed25519` (ie with ``ssh-keygen -t ed25519 ...``).  
+We support OpenSSH key-format if the key was generated with type `ed25519`  
+(ie with ``ssh-keygen -t ed25519 ...``).  
 We borrow from [OpenSSH](https://github.com/openssh/openssh-portable).
