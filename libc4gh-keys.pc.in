@@ -18,6 +18,6 @@ includedir=${prefix}/include
 Name: libc4gh-keys
 URL: https://github.com/silverdaz/libc4gh-keys
 Description: Library to parse keys in the Crypt4GH key format or OpenSSH ed25519 keys.
-Version: @CRYPT4GH_VERSION@
+Version: @LIBCRYPT4GH_KEYS_VERSION@
 Libs: -L${libdir} -lc4gh-keys
 Cflags: -I${includedir}
