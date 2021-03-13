@@ -16,7 +16,9 @@
 #ifndef INCLUDES_H
 #define INCLUDES_H
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE /* activate extra prototypes for glibc */
@@ -83,5 +85,6 @@
 
 #include "defines.h"
 #include "openbsd-compat/openbsd-compat.h"
+#include "debug.h"
 
 #endif /* INCLUDES_H */

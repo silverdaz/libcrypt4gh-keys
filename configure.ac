@@ -2,10 +2,16 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libopenssh], [1.0], [frederic.haziza@crg.eu])
+AC_INIT([libc4gh-keys],[1.0],
+  [https://github.com/silverdaz/libcrypt4gh-keys/issues],
+  [libc4gh-keys],
+  [https://github.com/silverdaz/libcrypt4gh-keys])
 
-AC_CONFIG_SRCDIR([ssh.c])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_SRCDIR([src/ssh.c])
+AC_CONFIG_HEADER([src/config.h])
+
+LIBCRYPT4GH_KEYS_VERSION=1.0
+AC_SUBST(LIBCRYPT4GH_KEYS_VERSION)
 
 AC_LANG([C])
 
@@ -772,14 +778,14 @@ fi
 #######################################################
 
 AC_CONFIG_FILES([Makefile \
-		 openssh/Makefile \
-		 openbsd-compat/Makefile \
+		 src/openssh/Makefile \
+		 src/openbsd-compat/Makefile \
 		 libc4gh-keys.pc \
 ])
 
-AC_SUBST([OPENSSH_DEPEND], [$(cat $srcdir/openssh/.depend)])
-AC_SUBST([OPENBSD_COMPAT_DEPEND], [$(cat $srcdir/openbsd-compat/.depend)])
-AC_SUBST([DEPEND], [$(cat $srcdir/.depend)])
+AC_SUBST([OPENSSH_DEPEND], [$(cat $srcdir/src/openssh/.depend)])
+AC_SUBST([OPENBSD_COMPAT_DEPEND], [$(cat $srcdir/src/openbsd-compat/.depend)])
+AC_SUBST([DEPEND], [$(cat $srcdir/src/.depend)])
 
 
 AC_OUTPUT
@@ -787,8 +793,9 @@ AC_OUTPUT
 # Print summary of options
 
 echo ""
+echo "             Version: ${LIBCRYPT4GH_KEYS_VERSION}"
 echo "            Compiler: ${CC}"
-echo "      Compiler flags: ${CFLAGS}"
+echo "      Compiler flags: ${CFLAGS} ${DEFS}"
 echo "  Preprocessor flags: ${CPPFLAGS}"
 echo "        Linker flags: ${LDFLAGS}"
 echo "                LIBS: ${LIBS}"

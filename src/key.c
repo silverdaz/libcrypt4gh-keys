@@ -6,10 +6,10 @@
 #include <string.h>
 #include <sodium.h>
 
-#include "debug.h"
-#include "key.h"
-#include "ssh.h"
-#include "c4gh.h"
+#include "includes.h"
+#include "crypt4gh/key.h"
+#include "crypt4gh/keys/ssh.h"
+#include "crypt4gh/keys/c4gh.h"
 #include "openbsd-compat/openbsd-compat.h" /* for freezero */
 
 #define BUF_SIZE 4096 /* Laaaaarge enough */

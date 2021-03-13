@@ -8,8 +8,8 @@
 #include "openssh/sshbuf.h"
 #include "openssh/sshkey.h"
 
-#include "debug.h"
-#include "ssh.h"
+#include "includes.h"
+#include "crypt4gh/keys/ssh.h"
 
 int
 crypt4gh_ssh_private_key_from_blob(const char* line, size_t len,

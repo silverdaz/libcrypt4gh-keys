@@ -3,9 +3,9 @@
 #include <sodium.h>
 #include <openssl/evp.h>
 
-#include "debug.h"
+#include "includes.h"
 #include "openbsd-compat/openbsd-compat.h" /* for bcrypt_pbkdf */
-#include "kdf.h"
+#include "crypt4gh/keys/kdf.h"
 
 /* Supported key types */
 static const struct kdftype kdfs[] = {

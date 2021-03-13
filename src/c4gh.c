@@ -3,9 +3,9 @@
 #include <string.h>
 #include <sodium.h>
 
-#include "debug.h"
-#include "kdf.h"
-#include "c4gh.h"
+#include "includes.h"
+#include "crypt4gh/keys/kdf.h"
+#include "crypt4gh/keys/c4gh.h"
 
 /* ==================================================================
  *
