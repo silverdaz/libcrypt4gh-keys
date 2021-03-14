@@ -44,7 +44,7 @@ libc4gh-keys.la: $(C4GH_HEADERS) $(C4GH_OBJECTS)
 $(C4GH_OBJECTS): src/config.h
 
 src/openssh/libopenssh.a src/openbsd-compat/libopenbsd-compat.a:
-	make -C $(@:D)
+	make -C $(@D)
 
 %.o: %.c
 ifdef DEBUG
