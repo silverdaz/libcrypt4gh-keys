@@ -1,9 +1,10 @@
+SHELL := /bin/bash
 AR     = @AR@
 RANLIB = @RANLIB@
 CC     = @CC@
 CFLAGS = @CFLAGS@ -fPIC -I@srcdir@/src -I@srcdir@/src/include @CPPFLAGS@ @DEFS@
-LIBS   = @LIBS@ -lopenbsd-compat -lopenssh
-LDFLAGS = @LDFLAGS@ -L@srcdir@/src/openbsd-compat -L@srcdir@/src/openssh
+LIBS   = @LIBS@
+LDFLAGS = @LDFLAGS@
 
 prefix=@prefix@
 exec_prefix=@exec_prefix@
@@ -27,23 +28,37 @@ all:
 .PHONY: all clean install
 .SUFFIXES: .c .o
 
-all: libc4gh-keys.so libc4gh-keys.la
+all: libc4gh-keys.so
 
 $(LIBDIR) $(INCLUDEDIR) $(PKGCONFIGDIR):
 	@echo "Creating: $@"
 	@install -d $@
 
-libc4gh-keys.so: $(C4GH_HEADERS) $(C4GH_OBJECTS) $(LIBOPENSSH) $(LIBCOMPAT)
-	@echo "Linking objects into $@"
-	$(CC) -shared $(C4GH_LD_SONAME) $(LDFLAGS) $(LIBS) $(C4GH_OBJECTS) -o $@
+libc4gh-keys.so: libc4gh-keys.la $(LIBOPENSSH) $(LIBCOMPAT)
+	@echo "Creating shared library $@"
+	$(CC) -o $@ -Wl,--whole-archive $^ \
+                    -Wl,--no-whole-archive -shared $(C4GH_LD_SONAME) $(LDFLAGS) $(LIBS)
 
-libc4gh-keys.la: $(C4GH_HEADERS) $(C4GH_OBJECTS)
-	$(AR) rv $@ $(C4GH_OBJECTS) $(LIBOPENSSH) $(LIBCOMPAT)
+libc4gh-keys.la: $(C4GH_OBJECTS)
+	$(AR) rv $@ $(C4GH_OBJECTS)
 	$(RANLIB) $@
+
+# libc4gh-keys.a: libc4gh-keys.mri
+# 	@echo "Creating static library $@"
+# 	@$(AR) -M < $<
+
+# .INTERMEDIATE: libc4gh-keys.mri
+# libc4gh-keys.mri: $(C4GH_OBJECTS) $(LIBOPENSSH) $(LIBCOMPAT)
+# 	@echo "create libc4gh-keys.a" > $@
+# 	@echo "addmod $(C4GH_OBJECTS)" >> $@
+# 	@echo "addlib $(LIBOPENSSH)" >> $@
+# 	@echo "addlib $(LIBCOMPAT)" >> $@
+# 	@echo "save" >> $@
+# 	@echo "end" >> $@
 
 $(C4GH_OBJECTS): src/config.h
 
-src/openssh/libopenssh.a src/openbsd-compat/libopenbsd-compat.a:
+$(LIBOPENSSH) $(LIBCOMPAT):
 	make -C $(@D)
 
 %.o: %.c
@@ -54,11 +69,21 @@ else
 endif
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
-install-so: libc4gh-keys.so | $(LIBDIR)
-	@echo "Installing $< into $(LIBDIR)"
-	@install -m 755 $< $(LIBDIR)
+clean:
+	-rm -f libc4gh-keys.{a,la,so,mri} $(C4GH_OBJECTS)
+	-@rm -f *~ 
 
-install-la: libc4gh-keys.la | $(LIBDIR)
+veryclean: clean
+	-make -C src/openbsd-compat clean
+	-make -C src/openssh clean
+
+distclean: clean
+	-rm -f Makefile src/config.h* config.status configure config.log
+	-rm -rf autom4te.cache src/.depend.old
+	-make -C src/openssh $@
+	-make -C src/openbsd-compat $@
+
+install-so: libc4gh-keys.so | $(LIBDIR)
 	@echo "Installing $< into $(LIBDIR)"
 	@install -m 755 $< $(LIBDIR)
 
@@ -71,21 +96,16 @@ install-includes: src/include | $(INCLUDEDIR)
 	@cp -r $</* $(INCLUDEDIR)
 # Todo: use "install" instead of cp
 
-install: install-so install-la install-pc install-includes
+install: install-so install-pc install-includes
 
-clean:
-	-rm -f libc4gh-keys.so libc4gh-keys.la $(C4GH_OBJECTS)
-	-@rm -f *~ 
+uninstall:
+	@echo "Uninstalling libc4gh-keys.so from $(LIBDIR)"
+	@-rm $(LIBDIR)/libc4gh-keys.so
+	@echo "Uninstalling crypt4gh from $(INCLUDEDIR)"
+	@-rm -r $(INCLUDEDIR)/crypt4gh/keys $(INCLUDEDIR)/crypt4gh/key.h
+	@echo "Uninstalling libc4gh-keys.pc from $(PKGCONFIGDIR)"
+	@-rm $(PKGCONFIGDIR)/libc4gh-keys.pc
 
-veryclean: clean
-	-make -C src/openbsd-compat clean
-	-make -C src/openssh clean
-
-distclean: clean
-	-rm -f Makefile src/config.h* config.status configure config.log
-	-rm -rf autom4te.cache src/.depend.old libc4gh-keys.pc
-	-make -C src/openssh $@
-	-make -C src/openbsd-compat $@
 
 ###################################
 ## Dependencies

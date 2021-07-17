@@ -1,14 +1,11 @@
 # -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
-AC_INIT([libc4gh-keys],[1.0],
-  [https://github.com/silverdaz/libcrypt4gh-keys/issues],
-  [libc4gh-keys],
-  [https://github.com/silverdaz/libcrypt4gh-keys])
+AC_PREREQ([2.71])
+AC_INIT([libc4gh-keys],[1.0],[https://github.com/silverdaz/libcrypt4gh-keys/issues],[libc4gh-keys],[https://github.com/silverdaz/libcrypt4gh-keys])
 
 AC_CONFIG_SRCDIR([src/ssh.c])
-AC_CONFIG_HEADER([src/config.h])
+AC_CONFIG_HEADERS([src/config.h])
 
 LIBCRYPT4GH_KEYS_VERSION=1.0
 AC_SUBST(LIBCRYPT4GH_KEYS_VERSION)
@@ -19,8 +16,6 @@ AC_LANG([C])
 AC_PROG_AWK
 #CFLAGS=""
 AC_PROG_CC([gcc cc])
-#AC_PROG_CC_STDC # -std=c99
-#AC_PROG_CPP
 AC_PROG_RANLIB
 AC_CHECK_TOOL([AR], [ar])
 AC_CHECK_TOOL([PKG_CONFIG], [pkg-config])
@@ -33,7 +28,7 @@ fi
 AC_C_INLINE
 
 # First of all, we need libsodium, for ssh-ed25519 sizes
-AC_SEARCH_LIBS([sodium_malloc], [sodium], [], [AC_ERROR("libsodium is required. Install it from https://libsodium.org/.")])
+AC_SEARCH_LIBS([sodium_malloc], [sodium], [], [AC_MSG_ERROR("libsodium is required. Install it from https://libsodium.org/.")])
 #CFLAGS="${CFLAGS} $(pkg-config --cflags libsodium)"
 #LDFLAGS="$LDFLAGS $(pkg-config --libs libsodium)"
 
@@ -274,12 +269,12 @@ AC_CHECK_HEADERS([ \
 	sys/byteorder.h \
 	sys/stat.h \
 	unistd.h \
-	dnl resolv.h \
+	#resolv.h \
 ])
 
-dnl # We need -lresolv for b64_pton
-dnl dnl AC_SEARCH_LIBS([b64_pton], [resolv])
-dnl AC_CHECK_LIB([resolv], [b64_pton], [LIBS="$LIBS -lresolv"])
+# # We need -lresolv for b64_pton
+# #AC_SEARCH_LIBS([b64_pton], [resolv])
+# AC_CHECK_LIB([resolv], [b64_pton], [LIBS="$LIBS -lresolv"])
 
 # Check for Endianness
 AC_C_BIGENDIAN(
@@ -318,7 +313,7 @@ else
 fi
 
 
-dnl    Checks for library functions. Please keep in alphabetical order
+# Checks for library functions. Please keep in alphabetical order
 AC_CHECK_FUNCS([ \
 	Blowfish_initstate \
 	Blowfish_expandstate \
@@ -329,8 +324,8 @@ AC_CHECK_FUNCS([ \
 	SHA512Update \
 	b64_ntop \
 	b64_pton \
-	dnl __b64_pton \
-	dnl __b64_ntop \
+	#__b64_pton \
+	#__b64_ntop \
 	bcopy \
 	bcrypt_pbkdf \
 	blf_enc \
@@ -349,7 +344,7 @@ AC_CHECK_FUNCS([ \
 
 AC_CHECK_DECLS([bzero, memmem])
 
-dnl Make sure prototypes are defined for these before using them.
+# Make sure prototypes are defined for these before using them.
 AC_CHECK_DECL([strsep],
 	[AC_CHECK_FUNCS([strsep])],
 	[],
