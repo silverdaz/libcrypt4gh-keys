@@ -1,8 +1,12 @@
 # -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.71])
-AC_INIT([libc4gh-keys],[1.0],[https://github.com/silverdaz/libcrypt4gh-keys/issues],[libc4gh-keys],[https://github.com/silverdaz/libcrypt4gh-keys])
+AC_PREREQ([2.69])
+AC_INIT([libc4gh-keys],
+	[1.0],
+	[https://github.com/silverdaz/libcrypt4gh-keys/issues],
+	[libc4gh-keys],
+	[https://github.com/silverdaz/libcrypt4gh-keys])
 
 AC_CONFIG_SRCDIR([src/ssh.c])
 AC_CONFIG_HEADERS([src/config.h])
