@@ -7,6 +7,11 @@ config.h.in
 configure
 libc4gh-keys.pc
 
+*~
+.#*
+.DS_Store
+
+
 # Prerequisites
 *.d
 
