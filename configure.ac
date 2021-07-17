@@ -33,8 +33,8 @@ AC_C_INLINE
 
 # First of all, we need libsodium, for ssh-ed25519 sizes
 AC_SEARCH_LIBS([sodium_malloc], [sodium], [], [AC_MSG_ERROR("libsodium is required. Install it from https://libsodium.org/.")])
-#CFLAGS="${CFLAGS} $(pkg-config --cflags libsodium)"
-#LDFLAGS="$LDFLAGS $(pkg-config --libs libsodium)"
+CFLAGS="${CFLAGS} $(pkg-config --cflags libsodium)"
+LDFLAGS="$LDFLAGS $(pkg-config --libs libsodium)"
 
 
 if test "$GCC" = "yes"; then
@@ -134,7 +134,7 @@ AC_LINK_IFELSE(
     ])
 
 #LIBS="-lssl -lcrypto $LIBS"
-#LIBS="`$PKG_CONFIG openssl --libs` $LIBS"
+#LIBS="$LIBS $($PKG_CONFIG --libs openssl)"
 
 openssl_engine=no
 AC_ARG_WITH([ssl-engine],
@@ -273,7 +273,6 @@ AC_CHECK_HEADERS([ \
 	sys/byteorder.h \
 	sys/stat.h \
 	unistd.h \
-	#resolv.h \
 ])
 
 # # We need -lresolv for b64_pton
@@ -328,8 +327,6 @@ AC_CHECK_FUNCS([ \
 	SHA512Update \
 	b64_ntop \
 	b64_pton \
-	#__b64_pton \
-	#__b64_ntop \
 	bcopy \
 	bcrypt_pbkdf \
 	blf_enc \
@@ -345,6 +342,8 @@ AC_CHECK_FUNCS([ \
 	strerror \
 ])
 
+	#__b64_pton \
+	#__b64_ntop \
 
 AC_CHECK_DECLS([bzero, memmem])
 
