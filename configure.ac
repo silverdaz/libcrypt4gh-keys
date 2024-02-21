@@ -176,9 +176,9 @@ AC_RUN_IFELSE(
 		case "$ssl_library_ver" in
 			101*)   ;; # 1.1.x
 			200*)   ;; # LibreSSL
-			300*)   ;; # OpenSSL development branch.
+			301*)   ;; # OpenSSL 3.1.x
 		        *)
-				AC_MSG_ERROR([OpenSSL >= 1.1.0 required (have "$ssl_library_ver")])
+				AC_MSG_ERROR([OpenSSL >= 3.1.x required (have "$ssl_library_ver")])
 		                ;;
 		esac
 		AC_MSG_RESULT([$ssl_library_ver])
